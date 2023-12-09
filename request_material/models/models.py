@@ -13,9 +13,10 @@ class MaterialMaterial(models.Model):
         ('jeans', 'Jeans'),
         ('cotton', 'Cotton'),
     ], string='Material Type',required=True)
-    buy_price = fields.Monetary('Buy Price',required=True)
+    buy_price = fields.Monetary('Buy Price',required=True, default="100")
     currency_id = fields.Many2one('res.currency', string='Currency',default=lambda self:self.env.user.company_id.currency_id,required=True)
     supplier_id = fields.Many2one('res.partner', string='Supplier',required=True)
+    active = fields.Boolean('Active',default=True)
 
     @api.onchange('buy_price')
     def _onchange_buy_price(self):
@@ -23,7 +24,7 @@ class MaterialMaterial(models.Model):
             raise AccessError(_("Buy Price tidak boleh kurang dari 100"))
 
     @api.constrains("buy_price")
-    def check_buy_price():
+    def check_buy_price(self):
         for i in self:
             if i.buy_price < 100:
                 raise AccessError(_("Buy Price tidak boleh kurang dari 100"))

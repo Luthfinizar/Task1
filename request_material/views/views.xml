@@ -11,6 +11,9 @@
           <field name="name"/>
           <field name="type"/>
           <field name="supplier_id"/>
+          <group expand="1" name="groupby" string="Group By">
+            <filter name="group_by_type" string="Type" context="{'group_by': 'type'}" />
+          </group>
         </search>
       </field>
     </record>
